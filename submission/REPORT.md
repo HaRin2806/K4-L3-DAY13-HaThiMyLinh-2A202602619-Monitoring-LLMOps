@@ -37,13 +37,13 @@
 
 | Nội dung | Baseline | Kết quả cuối | Nhận xét |
 |---|---|---|---|
-| `validate_logs.py` | 30/100 | | Thiếu correlation_id và enrichment fields |
-| `validate_dashboard.py` | 6/6 panel hợp lệ | | Đã qua dashboard validator |
-| `pytest` | 22 passed | | Toàn bộ 22/22 unit tests passed |
-| Số traces hợp lệ | 0 | | Baseline chưa cấu hình Langfuse key |
-| Số PII leak | 0 | | Chưa phát hiện leak PII trong log mẫu |
-| Latency P95 / TTFT P95 | 151.0ms / 50.0ms | | Tải 10 requests mẫu baseline |
-| Retrieval success rate | 100% (10/10) | | 10/10 query có tool_success=True |
+| `validate_logs.py` | 30/100 | 100/100 | Đạt điểm tuyệt đối; đầy đủ correlation_id, context enrichment và che PII |
+| `validate_dashboard.py` | 6/6 panel hợp lệ | 6/6 panel hợp lệ | Đạt 100% hợp lệ theo cấu trúc và contract `config/dashboard.yaml` |
+| `pytest` | 22 passed | 24 passed | 24/24 unit tests passed (bổ sung tests che CCCD và thẻ thanh toán) |
+| Số traces hợp lệ | 0 | ≥ 15 traces | Traces ghi nhận đầy đủ cây spans, metadata và prompt versions trên Langfuse |
+| Số PII leak | 0 | 0 | Không có rò rỉ PII; email, phone, CCCD, credit card đều được scrub sạch |
+| Latency P95 / TTFT P95 | 151.0ms / 50.0ms | 420.8ms / 50.0ms | Baseline ổn định; khi bật challenge incident tăng lên 2652ms đúng kịch bản |
+| Retrieval success rate | 100% (10/10) | 100% | 100% request xử lý retrieval thành công (`tool_success=True`) |
 
 ## 4. Logging và PII
 
