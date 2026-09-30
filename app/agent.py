@@ -79,6 +79,12 @@ class LabAgent:
             latency_ms = int((time.perf_counter() - started) * 1000)
             cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
 
+        if hasattr(langfuse_client, "flush"):
+            try:
+                langfuse_client.flush()
+            except Exception:
+                pass
+
         metrics.record_request(
             latency_ms=latency_ms,
             ttft_ms=response.ttft_ms,
